@@ -40,7 +40,7 @@ resource "aws_lb" "main" {
 #  }
 
   tags = {
-    Environment = "${var.component}-${var.env}-alb"
+    Environment = "${var.name}-${var.env}-alb"
   }
 }
 
