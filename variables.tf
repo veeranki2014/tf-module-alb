@@ -8,5 +8,5 @@ variable "sg_subnet_cidr" {}
 variable "name" {}
 variable "internal" {}
 variable "load_balancer_type" {}
-variable "subnets" {}
+variable "subnets_ids" {}
 variable "tags" {}
