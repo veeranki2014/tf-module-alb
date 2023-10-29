@@ -1,5 +1,5 @@
 variable "env" {}
-variable "component" {}
+//variable "component" {}
 variable "vpc_id" {}
 variable "port" {
   default = 80
