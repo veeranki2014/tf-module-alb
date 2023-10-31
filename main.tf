@@ -6,11 +6,18 @@ resource "aws_security_group" "main" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = var.port
-    to_port     = var.port
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = var.sg_subnet_cidr
+  }
 
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = var.sg_subnet_cidr
   }
   egress {
     from_port   = 0
@@ -46,8 +53,10 @@ resource "aws_lb" "main" {
 
 resource "aws_lb_listener" "main" {
   load_balancer_arn = aws_lb.main.arn
-  port              = var.port
-  protocol          = "HTTP"
+  port              = 443
+  protocol          = "HTTPs"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "arn:aws:acm:us-east-1:155405255921:certificate/ff3ee35a-c4da-4589-bca8-bdb7edd39a99"
 
   default_action {
     type = "fixed-response"
