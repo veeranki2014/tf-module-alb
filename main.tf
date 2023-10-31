@@ -30,7 +30,7 @@ resource "aws_security_group" "main" {
 }
 
 
-
+###Loadbalancer Creation
 resource "aws_lb" "main" {
   name               = "${var.name}-${var.env}-alb"
   internal           = var.internal
@@ -50,6 +50,24 @@ resource "aws_lb" "main" {
     Environment = "${var.name}-${var.env}-alb"
   }
 }
+
+### Forward HTTP Request to HTTPS Redirection
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
 
 resource "aws_lb_listener" "main" {
   load_balancer_arn = aws_lb.main.arn
